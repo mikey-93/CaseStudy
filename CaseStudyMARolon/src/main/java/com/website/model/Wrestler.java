@@ -23,11 +23,11 @@ public class Wrestler {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "Wrest_Id")
    private long id;
-   @Column(name = "Wrest_Name", unique = true)
+   @Column(name = "Wrest_Name", nullable = false, unique = true)
    private String name;
-   @Column(name = "Wrest_DOB")
+   @Column(name = "Wrest_DOB", nullable = false)
    private Date dateOfBirth;
-   @Column(name = "Division")
+   @Column(name = "Division", nullable = false)
    private String division;
    @Column(name = "Wrest_Desc")
    private String desc;

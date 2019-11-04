@@ -1,5 +1,6 @@
 package com.website.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,9 +24,11 @@ public class Event {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "Event_Id")
    private long id;
-   @Column(name = "City")
+   @Column(name = "Event_Date", nullable = false)
+   private Date date;
+   @Column(name = "City", nullable = false)
    private String city;
-   @Column(name = "State")
+   @Column(name = "State", nullable = false)
    private String state;
    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
    @JoinTable(name = "EVENT_WRESTLER", 

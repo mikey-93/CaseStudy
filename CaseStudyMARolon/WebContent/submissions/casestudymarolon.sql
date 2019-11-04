@@ -19,8 +19,9 @@ USE `casestudymarolon`;
 -- Dumping structure for table casestudymarolon.event
 CREATE TABLE IF NOT EXISTS `event` (
   `Event_Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `City` varchar(255) DEFAULT NULL,
-  `State` varchar(255) DEFAULT NULL,
+  `City` varchar(255) NOT NULL,
+  `Event_Date` datetime NOT NULL,
+  `State` varchar(255) NOT NULL,
   PRIMARY KEY (`Event_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -41,9 +42,9 @@ CREATE TABLE IF NOT EXISTS `event_wrestler` (
 -- Dumping structure for table casestudymarolon.user
 CREATE TABLE IF NOT EXISTS `user` (
   `User_Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `User_DOB` datetime DEFAULT NULL,
+  `User_DOB` datetime NOT NULL,
   `User_Desc` varchar(255) DEFAULT NULL,
-  `User_Email` varchar(255) DEFAULT NULL,
+  `User_Email` varchar(255) NOT NULL,
   PRIMARY KEY (`User_Id`),
   UNIQUE KEY `UK_akxyafi0oics02wy6hspwkuiw` (`User_Email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -65,10 +66,10 @@ CREATE TABLE IF NOT EXISTS `user_wrestler` (
 -- Dumping structure for table casestudymarolon.wrestler
 CREATE TABLE IF NOT EXISTS `wrestler` (
   `Wrest_Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `Wrest_DOB` datetime DEFAULT NULL,
+  `Wrest_DOB` datetime NOT NULL,
   `Wrest_Desc` varchar(255) DEFAULT NULL,
-  `Division` varchar(255) DEFAULT NULL,
-  `Wrest_Name` varchar(255) DEFAULT NULL,
+  `Division` varchar(255) NOT NULL,
+  `Wrest_Name` varchar(255) NOT NULL,
   PRIMARY KEY (`Wrest_Id`),
   UNIQUE KEY `UK_rl22ng6ymdry34vvjp1dkbavx` (`Wrest_Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
