@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,25 +15,26 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "WRESTLER")
-public class Wrestler {
+@Table(name = "USER")
+public class User {
    
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   @Column(name = "Wrest_Id")
+   @Column(name = "User_Id")
    private long id;
-   @Column(name = "Wrest_Name", unique = true)
-   private String name;
-   @Column(name = "Wrest_DOB")
+   @Column(name = "User_Email", unique = true)
+   private String email;
+   @Column(name = "User_DOB")
    private Date dateOfBirth;
-   @Column(name = "Division")
-   private String division;
-   @Column(name = "Wrest_Desc")
+   @Column(name = "User_Desc")
    private String desc;
-   @ManyToMany(mappedBy = "wrestlers", cascade = CascadeType.PERSIST)
-   private Set<Event> events = new HashSet<>();
+   @ManyToMany
+   @JoinTable(name = "USER_WRESTLER", 
+      joinColumns = @JoinColumn(name = "User_Id"), 
+      inverseJoinColumns = @JoinColumn(name = "Wrestler_Id"))
+   private Set<Wrestler> wrestlers = new HashSet<>();
    
-   public Wrestler() {
+   public User() {
    }
 
    public long getId() {
@@ -45,14 +45,14 @@ public class Wrestler {
       this.id = id;
    }
 
-   public String getName() {
-      return name;
+   public String getEmail() {
+      return email;
    }
 
-   public void setName(String name) {
-      this.name = name;
+   public void setEmail(String email) {
+      this.email = email;
    }
-
+   
    public Date getDateOfBirth() {
       return dateOfBirth;
    }
@@ -61,13 +61,20 @@ public class Wrestler {
       this.dateOfBirth = dateOfBirth;
    }
 
-   public String getDivision() {
-      return division;
+   public String getDesc() {
+      return desc;
    }
 
-   public void setDivision(String division) {
-      this.division = division;
+   public void setDesc(String desc) {
+      this.desc = desc;
    }
-   
+
+   public Set<Wrestler> getWrestlers() {
+      return wrestlers;
+   }
+
+   public void setWrestlers(Set<Wrestler> wrestlers) {
+      this.wrestlers = wrestlers;
+   }
    
 }
