@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "USER")
@@ -22,12 +24,22 @@ public class User {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "User_Id")
    private long id;
+   
+   @NotEmpty(message = "required; cannot be empty")
    @Column(name = "User_Email", nullable = false, unique = true)
    private String email;
+   
+   @NotEmpty(message = "required; cannot be empty")
+   @Column(name = "User_Password", nullable = false)
+   private String password;
+   
+   @NotNull(message = "required; cannot be empty")
    @Column(name = "User_DOB", nullable = false)
    private Date dateOfBirth;
+   
    @Column(name = "User_Desc")
    private String desc;
+   
    @ManyToMany
    @JoinTable(name = "USER_WRESTLER", 
       joinColumns = @JoinColumn(name = "User_Id"), 
@@ -53,6 +65,14 @@ public class User {
       this.email = email;
    }
    
+   public String getPassword() {
+      return password;
+   }
+
+   public void setPassword(String password) {
+      this.password = password;
+   }
+
    public Date getDateOfBirth() {
       return dateOfBirth;
    }

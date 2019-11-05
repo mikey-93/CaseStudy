@@ -7,21 +7,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.website.model.User;
 import com.website.model.Wrestler;
+import com.website.repository.UserRepository;
 import com.website.repository.WrestlerRepository;
 
 @Transactional
 @Service
-public class WrestlerService {
+public class AEWService {
    
    @Autowired
    WrestlerRepository wrestlerRepository;
+   @Autowired
+   UserRepository userRepository;
    
-//   public WrestlerService(WrestlerRepository wrestlerRepository) {
+//   public AEWService(WrestlerRepository wrestlerRepository) {
 //      this.wrestlerRepository = wrestlerRepository;
 //   }
    
-// public WrestlerService() {
+// public AEWService() {
 // wrestlerRepository.findByDateOfBirth(date);
 //}
    
@@ -36,5 +40,17 @@ public class WrestlerService {
             });
       //wrestlerRepository.findAll().forEach(wrestlers::add);
       return wrestlers;
+   }
+   
+   public User getUserByEmail(String email) {
+      return userRepository.findByEmail(email);
+   }
+   
+   public List<User> getAllUsers() {
+      List<User> users = new ArrayList<>();
+      userRepository.findAll().forEach(
+            (e) -> {users.add(e);
+            });
+      return users;
    }
 }
