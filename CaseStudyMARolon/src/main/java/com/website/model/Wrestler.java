@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Past;
 
 @Entity
 @Table(name = "WRESTLER")
@@ -21,14 +22,20 @@ public class Wrestler {
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "Wrest_Id")
    private long id;
+   
    @Column(name = "Wrest_Name", nullable = false, unique = true)
    private String name;
+   
+   @Past(message = "Date of birth cannot be in future")
    @Column(name = "Wrest_DOB", nullable = false)
    private Date dateOfBirth;
+   
    @Column(name = "Division", nullable = false)
    private String division;
+   
    @Column(name = "Wrest_Desc")
    private String desc;
+   
    @ManyToMany(mappedBy = "wrestlers", cascade = CascadeType.PERSIST)
    private Set<Event> events = new HashSet<>();
    
@@ -65,6 +72,22 @@ public class Wrestler {
 
    public void setDivision(String division) {
       this.division = division;
+   }
+
+   public String getDesc() {
+      return desc;
+   }
+
+   public void setDesc(String desc) {
+      this.desc = desc;
+   }
+
+   public Set<Event> getEvents() {
+      return events;
+   }
+
+   public void setEvents(Set<Event> events) {
+      this.events = events;
    }
    
    

@@ -1,32 +1,59 @@
 package com.website.controller;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.website.model.Authorities;
+import com.website.model.Comment;
+import com.website.model.Event;
 import com.website.model.User;
-import com.website.service.AEWService;
+import com.website.model.Wrestler;
+import com.website.repository.CommentRepository;
+import com.website.repository.EventRepository;
+import com.website.repository.UserRepository;
+import com.website.repository.WrestlerRepository;
+import com.website.service.EventService;
+import com.website.service.UserService;
+import com.website.service.WrestlerService;
 
 @Controller
 public class HomeController {
    
    @Autowired
-   AEWService aewService;
+   WrestlerRepository wrestlerRepository;
+   @Autowired
+   WrestlerService wrestlerService;
+   @Autowired
+   UserRepository userRepository;
+   @Autowired
+   UserService userService;
+   @Autowired
+   EventRepository eventRepository;
+   @Autowired
+   EventService eventService;
+   @Autowired
+   CommentRepository commentRepository;
+   //TODO Add CommentService?
    
    @InitBinder
    public void initBuilder(WebDataBinder binder) {
@@ -35,14 +62,79 @@ public class HomeController {
    }
    
    @RequestMapping("/")
-   public ModelAndView homePage() {
+   public ModelAndView homePage(Principal principal) {
       ModelAndView mav = new ModelAndView("home");
+      if (principal != null) {
+         User user = userRepository.findByEmail(principal.getName());
+         mav.addObject("welcome", ("Welcome, " + user.getUsername()));
+      }
       return mav;
    }
    
+   @RequestMapping("/roster")
+   public ModelAndView rosterPage() {
+      ModelAndView mav = new ModelAndView("rosterPage");
+      List<Wrestler> wrestlers = wrestlerService.getAllWrestlers();
+      mav.addObject("wrestlers", wrestlers);
+      return mav;
+   }
    
+   @RequestMapping("/roster/{name}")
+   public ModelAndView wrestlerPage(@PathVariable String name) {
+      ModelAndView mav = new ModelAndView("wrestlerPage");
+      Wrestler wrestler = wrestlerRepository.findByName(name);
+      mav.addObject("wrestler", wrestler);
+      return mav;
+   }
    
+   @RequestMapping("/events")
+   public ModelAndView eventsPage() {
+      ModelAndView mav = new ModelAndView("eventsPage");
+      List<Event> events = eventService.getAllEvents();
+      mav.addObject("events", events);
+      mav.addObject("", "");
+      return mav;
+   }
    
+   @RequestMapping("/events/{name}")
+   public ModelAndView oneEvent(@PathVariable String name) {
+      ModelAndView mav = new ModelAndView("event");
+      Event event = eventRepository.findByName(name);
+      mav.addObject("event", event);
+      return mav;
+   }
+   
+   //TODO ADD COMMENT!
+   @RequestMapping("/events/{name}/addComment")
+   public ModelAndView addComment(@PathVariable String name) {
+      ModelAndView mav = new ModelAndView("commentForm");
+      mav.addObject("commentObj", new Comment());
+      mav.addObject("eventName", name);
+      return mav;
+   }
+   
+   @RequestMapping(value = "commentProcess", method = RequestMethod.POST)
+   public ModelAndView commentProcess(@Valid @ModelAttribute("commentObj") Comment comment, 
+         BindingResult br, 
+         @RequestParam("eventName") String eventName, 
+         Principal principal, 
+         RedirectAttributes redirect) {
+      
+      ModelAndView mav = null;
+      if (!br.hasErrors() || !comment.getPost().isEmpty()) {
+         comment.setDate(new Date());
+         comment.setEvent(eventRepository.findByName(eventName));
+         comment.setUser(userRepository.findByEmail(principal.getName()));
+         commentRepository.save(comment);
+
+         mav = new ModelAndView("redirect:/events/" + eventName);
+      }
+      else {
+         mav = new ModelAndView("commentForm");
+         mav.addObject("eventName", eventName);
+      }
+      return mav;
+   }
    
    @RequestMapping("/login")
    public ModelAndView loginPage() {
@@ -52,22 +144,26 @@ public class HomeController {
    }
    
    @RequestMapping(value = "loginProcess", method = RequestMethod.POST)
-   //Added BindingResult
-   public ModelAndView loginProcess(@RequestParam("dateOfBirth") Optional<Date> dateOfBirth, 
+   public ModelAndView loginProcess(@RequestParam("username") Optional<String> username, 
+         @RequestParam("dateOfBirth") Optional<Date> dateOfBirth, 
          @Valid @ModelAttribute("userObj") User user, 
          BindingResult br, 
          RedirectAttributes redirect) {
       
       ModelAndView mav = null;
-      if (!br.hasErrors() || br.getRawFieldValue("dateOfBirth") == null) {
+      if (!br.hasErrors() || br.getRawFieldValue("username") == null || 
+            br.getRawFieldValue("dateOfBirth") == null) {
          
          String emailForm = user.getEmail();
+         //Encr
          String passwordForm = user.getPassword();
-         User userDB = aewService.getUserByEmail(emailForm);
+         User userDB = userRepository.findByEmail(emailForm);
+         System.out.println("Password: " + userDB.getPassword());
+         
          if (userDB != null 
                && passwordForm.equals(userDB.getPassword())) {
             mav = new ModelAndView("redirect:/");
-            redirect.addFlashAttribute("email", userDB.getEmail());
+            //redirect.addFlashAttribute("welcome", ("Welcome, " + userDB.getEmail() + '!'));
          }
          else {
             mav = new ModelAndView("loginPage");
@@ -78,6 +174,51 @@ public class HomeController {
          mav = new ModelAndView("loginPage");
       }
       
+      return mav;
+   }
+   
+   @RequestMapping("/register")
+   public ModelAndView registerPage() {
+      ModelAndView mav = new ModelAndView("registerPage");
+      mav.addObject("registerFormObj", new User());
+      return mav;
+   }
+   
+   @RequestMapping(value = "registerProcess", method = RequestMethod.POST)
+   public ModelAndView registerProcess(@Valid @ModelAttribute("registerFormObj") User user, 
+          BindingResult br, @RequestParam("confPassword") String confPassword) {
+      
+      ModelAndView mav = null;
+      User credential = new User();
+      if (!br.hasErrors() && user.getPassword().equals(confPassword)) {
+         //USE SPRING SECURITY!
+         String encoded = new BCryptPasswordEncoder().encode(user.getPassword());
+         
+
+         //Change from user.getPassword() to encoded
+         credential = new User(user.getUsername(), user.getEmail(), encoded, user.getDateOfBirth(), user.getDesc());
+         
+         //CONTINUATION OF SPRING SECURITY
+         credential.setEnabled(true);
+         Authorities role = new Authorities();
+         role.setUser(credential);
+         role.setAuthority("ROLE_USER");
+         
+         credential.getAuthorities().add(role);
+         
+         //
+         userService.addUser(credential);
+         
+         mav = new ModelAndView("registerConfirmation");
+         mav.addObject("user", userRepository.findByUsername(credential.getUsername()));
+         mav.addObject("message", "Registration complete!");
+      }
+      
+      else {
+         mav = new ModelAndView("registerPage");
+         if (!br.hasErrors())
+            mav.addObject("message", "Passwords do not match!");
+      }
       return mav;
    }
 }

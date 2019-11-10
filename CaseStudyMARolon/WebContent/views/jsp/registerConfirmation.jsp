@@ -4,15 +4,11 @@
 <html>
 	<head>
 		<meta charset="ISO-8859-1">
-		<title>All Elite Wrestling</title>
-		<jsp:include page="bootstrap.jsp"/>
+		<title>Register Confirmation</title>
 	</head>
 	<body>
 		<jsp:include page="topLabel.jsp"/><br/>
-		
-		<p>${welcome}</p>
-		<p>Welcome to All Elite Wrestling</p>
-		
-		
+		<p>Welcome, ${user.username}! ${message}</p>
+		<a href="${pageContext.request.contextPath}/login">Login</a>
 	</body>
 </html>
