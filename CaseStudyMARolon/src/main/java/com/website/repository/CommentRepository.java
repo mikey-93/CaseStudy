@@ -8,6 +8,7 @@ import com.website.model.Comment;
 @Repository
 public interface CommentRepository extends CrudRepository<Comment, Long> {
    
+   Comment findById(long id);
    Comment findByPost(String name);
    //List<Event> findAll();
 }

@@ -36,7 +36,7 @@ public class Wrestler {
    @Column(name = "Wrest_Desc")
    private String desc;
    
-   @ManyToMany(mappedBy = "wrestlers", cascade = CascadeType.PERSIST)
+   @ManyToMany(mappedBy = "wrestlers")
    private Set<Event> events = new HashSet<>();
    
    public Wrestler() {

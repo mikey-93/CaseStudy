@@ -99,17 +99,8 @@ public class HomeController {
    @RequestMapping("/events/{name}")
    public ModelAndView oneEvent(@PathVariable String name) {
       ModelAndView mav = new ModelAndView("event");
-      Event event = eventRepository.findByName(name);
-      mav.addObject("event", event);
-      return mav;
-   }
-   
-   //TODO ADD COMMENT!
-   @RequestMapping("/events/{name}/addComment")
-   public ModelAndView addComment(@PathVariable String name) {
-      ModelAndView mav = new ModelAndView("commentForm");
+      mav.addObject("event", eventRepository.findByName(name));
       mav.addObject("commentObj", new Comment());
-      mav.addObject("eventName", name);
       return mav;
    }
    
@@ -130,9 +121,31 @@ public class HomeController {
          mav = new ModelAndView("redirect:/events/" + eventName);
       }
       else {
-         mav = new ModelAndView("commentForm");
-         mav.addObject("eventName", eventName);
+         mav = new ModelAndView("event");
+         mav.addObject("event", eventRepository.findByName(eventName));
       }
+      return mav;
+   }
+   
+   //Delete
+   @RequestMapping(value = "deleteCon", method = RequestMethod.POST)
+   public ModelAndView deleteCon(@RequestParam("commentId") long commentId) {
+      
+      ModelAndView mav = new ModelAndView("deleteConfirmation");
+      mav.addObject("comment", commentRepository.findById(commentId));
+      return mav;
+   }
+   
+   @RequestMapping(value = "deleteProcess", method = RequestMethod.POST)
+   public ModelAndView deleteProcess(@RequestParam("commentId") long commentId, 
+         RedirectAttributes redirect) {
+      
+      Comment comment = commentRepository.findById(commentId);
+      String eventName = comment.getEvent().getName();
+      commentRepository.delete(comment);
+      
+      ModelAndView mav = new ModelAndView("redirect:/events/" + eventName);
+      redirect.addFlashAttribute("deleteCon", "Comment deleted!");
       return mav;
    }
    
@@ -189,14 +202,30 @@ public class HomeController {
           BindingResult br, @RequestParam("confPassword") String confPassword) {
       
       ModelAndView mav = null;
-      User credential = new User();
+      
+      System.out.println("Go here");
+      
       if (!br.hasErrors() && user.getPassword().equals(confPassword)) {
+         //Check if username or email are in the database
+         User userDB = userRepository.findByEmail(user.getEmail());
+         if (userDB != null && user.getEmail().equals(userDB.getEmail())) {
+            mav = new ModelAndView("registerPage");
+            mav.addObject("message", "Email already exists!");
+            return mav;
+         }
+         userDB = userRepository.findByUsername(user.getUsername());
+         if (userDB != null && user.getUsername().equals(userDB.getUsername())) {
+            mav = new ModelAndView("registerPage");
+            mav.addObject("message", "Username already exists!");
+            return mav;
+         }
+         
          //USE SPRING SECURITY!
          String encoded = new BCryptPasswordEncoder().encode(user.getPassword());
          
 
          //Change from user.getPassword() to encoded
-         credential = new User(user.getUsername(), user.getEmail(), encoded, user.getDateOfBirth(), user.getDesc());
+         User credential = new User(user.getUsername(), user.getEmail(), encoded, user.getDateOfBirth(), user.getDesc());
          
          //CONTINUATION OF SPRING SECURITY
          credential.setEnabled(true);
@@ -207,7 +236,7 @@ public class HomeController {
          credential.getAuthorities().add(role);
          
          //
-         userService.addUser(credential);
+         userRepository.save(credential);
          
          mav = new ModelAndView("registerConfirmation");
          mav.addObject("user", userRepository.findByUsername(credential.getUsername()));

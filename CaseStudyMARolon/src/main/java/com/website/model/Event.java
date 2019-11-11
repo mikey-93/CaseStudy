@@ -42,7 +42,7 @@ public class Event {
    @Column(name = "State", nullable = false)
    private String state;
    
-   @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+   @ManyToMany(fetch = FetchType.LAZY)
    @JoinTable(name = "EVENT_WRESTLER", 
       joinColumns = @JoinColumn(name = "Event_Id"), 
       inverseJoinColumns = @JoinColumn(name = "Wrestler_Id"))
