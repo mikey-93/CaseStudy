@@ -43,10 +43,13 @@
 				<tr>
 					<%-- <td>${comment.id}</td> --%>
 					<td>${comment.date}&nbsp;&nbsp;</td>
-					<td>${comment.user.username}&nbsp;&nbsp;</td>
+					<td>
+						<a href="${pageContext.request.contextPath}/${comment.user.username}">${comment.user.username}</a>
+						&nbsp;&nbsp;
+					</td>
 					<td>${comment.post}&nbsp;&nbsp;</td>
 					<td> <%-- Delete comment --%>
-						<c:if test="${pageContext.request.userPrincipal.name == comment.user.email}">
+						<c:if test="${pageContext.request.userPrincipal.name == comment.user.username}">
 							<form action="${pageContext.request.contextPath}/deleteCon" method="post">
 						
 								<input type="hidden" name="commentId" id="commentId" 

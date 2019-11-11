@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -64,10 +63,13 @@ public class HomeController {
    @RequestMapping("/")
    public ModelAndView homePage(Principal principal) {
       ModelAndView mav = new ModelAndView("home");
-      if (principal != null) {
-         User user = userRepository.findByEmail(principal.getName());
-         mav.addObject("welcome", ("Welcome, " + user.getUsername()));
-      }
+      return mav;
+   }
+   
+   @RequestMapping("/{username}")
+   public ModelAndView userProfile(@PathVariable String username) {
+      ModelAndView mav = new ModelAndView("userProfile");
+      mav.addObject("user", userRepository.findByUsername(username));
       return mav;
    }
    
@@ -115,7 +117,7 @@ public class HomeController {
       if (!br.hasErrors() || !comment.getPost().isEmpty()) {
          comment.setDate(new Date());
          comment.setEvent(eventRepository.findByName(eventName));
-         comment.setUser(userRepository.findByEmail(principal.getName()));
+         comment.setUser(userRepository.findByUsername(principal.getName()));
          commentRepository.save(comment);
 
          mav = new ModelAndView("redirect:/events/" + eventName);
@@ -153,40 +155,6 @@ public class HomeController {
    public ModelAndView loginPage() {
       ModelAndView mav = new ModelAndView("loginPage");
       mav.addObject("userObj", new User());
-      return mav;
-   }
-   
-   @RequestMapping(value = "loginProcess", method = RequestMethod.POST)
-   public ModelAndView loginProcess(@RequestParam("username") Optional<String> username, 
-         @RequestParam("dateOfBirth") Optional<Date> dateOfBirth, 
-         @Valid @ModelAttribute("userObj") User user, 
-         BindingResult br, 
-         RedirectAttributes redirect) {
-      
-      ModelAndView mav = null;
-      if (!br.hasErrors() || br.getRawFieldValue("username") == null || 
-            br.getRawFieldValue("dateOfBirth") == null) {
-         
-         String emailForm = user.getEmail();
-         //Encr
-         String passwordForm = user.getPassword();
-         User userDB = userRepository.findByEmail(emailForm);
-         System.out.println("Password: " + userDB.getPassword());
-         
-         if (userDB != null 
-               && passwordForm.equals(userDB.getPassword())) {
-            mav = new ModelAndView("redirect:/");
-            //redirect.addFlashAttribute("welcome", ("Welcome, " + userDB.getEmail() + '!'));
-         }
-         else {
-            mav = new ModelAndView("loginPage");
-            mav.addObject("message", "Username or password is wrong!");
-         }
-      }
-      else {
-         mav = new ModelAndView("loginPage");
-      }
-      
       return mav;
    }
    

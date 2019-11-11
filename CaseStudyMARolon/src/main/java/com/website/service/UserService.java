@@ -19,17 +19,16 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	UserRepository userRepository;
 	
-	//Use email instead
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		//From DB
-		User user = userRepository.findByEmail(email);
+		User user = userRepository.findByUsername(username);
 		
 		//To comply with Spring Sec User
 		UserBuilder builder = null;
 		
 		if (user != null) {
-			builder = org.springframework.security.core.userdetails.User.withUsername(email);
+			builder = org.springframework.security.core.userdetails.User.withUsername(username);
 			builder.password(user.getPassword());
 			builder.disabled(!user.isEnabled());
 			String [] authorities = user.getAuthorities()

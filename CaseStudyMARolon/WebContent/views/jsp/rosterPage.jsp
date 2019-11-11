@@ -12,10 +12,10 @@
 		<jsp:include page="topLabel.jsp"/><br/>
 		<table>
 			<tr>
-				<td>Name</td>
-				<td>DOB</td>
-				<td>Division</td>
-				<td>Description</td>
+				<td><b>Name</b></td>
+				<td><b>DOB</b></td>
+				<td><b>Division</b></td>
+				<td><b>Description</b></td>
 			</tr>
 			<c:forEach var="wrestler" items="${wrestlers}">
 				<tr>

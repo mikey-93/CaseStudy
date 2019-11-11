@@ -35,7 +35,7 @@
 				</tr>
 				<tr>
 					<td><form:label path="desc"/>Description: </td>
-					<td><form:input path="desc" name="desc" id="desc"/></td>
+					<td><form:textarea path="desc" name="desc" id="desc"/></td>
 					<td><form:errors path="desc" cssClass="error"/></td>
 				</tr>
 				<tr>

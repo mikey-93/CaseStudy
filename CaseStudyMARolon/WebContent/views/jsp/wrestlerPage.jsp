@@ -11,16 +11,16 @@
 		<jsp:include page="topLabel.jsp"/><br/>
 		<table>
 			<tr>
-				<td>Name: </td><td>${wrestler.name}</td>
+				<td><b>Name</b>: </td><td>${wrestler.name}</td>
 			</tr>
 			<tr>
-				<td>DOB: </td><td><fmt:formatDate value="${wrestler.dateOfBirth}" pattern="MM-dd-yyyy"/></td>
+				<td><b>DOB</b>: </td><td><fmt:formatDate value="${wrestler.dateOfBirth}" pattern="MM-dd-yyyy"/></td>
 			</tr>
 			<tr>
-				<td>Division: </td><td>${wrestler.division}</td>
+				<td><b>Division</b>: </td><td>${wrestler.division}</td>
 			</tr>
 			<tr>
-				<td>Description: </td><td>${wrestler.desc}</td>
+				<td><b>Description</b>: </td><td>${wrestler.desc}</td>
 			</tr>
 			<%-- <tr>
 				<td><a href="${pageContext.request.contextPath}/edit/${user.email}"><input type="button" value="Edit"/></a></td>
