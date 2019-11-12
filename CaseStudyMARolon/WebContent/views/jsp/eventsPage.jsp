@@ -24,6 +24,5 @@
 				</tr>
 			</c:forEach>
 		</table>
-		${test}
 	</body>
 </html>

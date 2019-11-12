@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -31,6 +32,7 @@
 		</table>
 		
 		<br/>
+		<p>${wrestlersAdded}</p>
 		<p><b>Favorite Wrestlers</b></p>
 		<table>
 			<tr>
@@ -42,5 +44,14 @@
 				</tr>
 			</c:forEach>
 		</table>
+		
+		Add wrestler(s) 
+		<form action="${pageContext.request.contextPath}/addFavWrestlerProcess" method="post">
+			<c:forEach var="wrestler" items="${allWrestlers}">
+				<input type="checkbox" name="wrestlerNames" id="${wrestler}" 
+					value="${wrestler.name}"/> ${wrestler.name}<br/>
+			</c:forEach>
+			<button type="submit">Add Favorite Wrestler(s)</button>
+		</form>
 	</body>
 </html>

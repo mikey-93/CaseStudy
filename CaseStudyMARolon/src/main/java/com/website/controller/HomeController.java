@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -70,14 +71,14 @@ public class HomeController {
    public ModelAndView userProfile(@PathVariable String username) {
       ModelAndView mav = new ModelAndView("userProfile");
       mav.addObject("user", userRepository.findByUsername(username));
+      mav.addObject("allWrestlers", wrestlerService.getAllWrestlers());
       return mav;
    }
    
    @RequestMapping("/roster")
    public ModelAndView rosterPage() {
       ModelAndView mav = new ModelAndView("rosterPage");
-      List<Wrestler> wrestlers = wrestlerService.getAllWrestlers();
-      mav.addObject("wrestlers", wrestlers);
+      mav.addObject("wrestlers", wrestlerService.getAllWrestlers());
       return mav;
    }
    
@@ -94,7 +95,6 @@ public class HomeController {
       ModelAndView mav = new ModelAndView("eventsPage");
       List<Event> events = eventService.getAllEvents();
       mav.addObject("events", events);
-      mav.addObject("", "");
       return mav;
    }
    
@@ -216,6 +216,27 @@ public class HomeController {
          if (!br.hasErrors())
             mav.addObject("message", "Passwords do not match!");
       }
+      return mav;
+   }
+   
+   @RequestMapping(value = "addFavWrestlerProcess", method = RequestMethod.POST)
+   public ModelAndView addFavWrestlerProcess(@RequestParam("wrestlerNames") Set<String> wrestlerNames, 
+         Principal principal, 
+         RedirectAttributes redirect) {
+      
+      User user = userRepository.findByUsername(principal.getName());
+      
+      wrestlerNames.forEach(
+            (e) -> {user.getWrestlers().add(wrestlerRepository.findByName(e));
+            });
+      
+      for (Wrestler w : user.getWrestlers()) {
+         System.out.println(w.getName());
+      }
+      userRepository.save(user);
+      
+      ModelAndView mav = new ModelAndView("redirect:/" + user.getUsername());
+      redirect.addFlashAttribute("wrestlersAdded", "Wrestlers added!");
       return mav;
    }
 }

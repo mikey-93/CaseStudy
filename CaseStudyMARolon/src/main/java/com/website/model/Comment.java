@@ -2,7 +2,6 @@ package com.website.model;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -33,11 +32,11 @@ public class Comment {
    @Column(name = "Comment_Date", nullable = false)
    private Date date;
    
-   @ManyToOne//(cascade = CascadeType.PERSIST)
+   @ManyToOne
    @JoinColumn(name = "User_Id", nullable = false)
    private User user;
    
-   @ManyToOne//(cascade = CascadeType.PERSIST)
+   @ManyToOne
    @JoinColumn(name = "Event_Id", nullable = false)
    private Event event;
    
