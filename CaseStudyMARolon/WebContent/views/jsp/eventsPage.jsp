@@ -7,19 +7,21 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Events</title>
+		<jsp:include page="bootstrap.jsp"/>
+		<jsp:include page="topLabel.jsp"/>
 	</head>
 	<body>
-		<jsp:include page="topLabel.jsp"/><br/>
+		<br/><br/>
 		<table>
 			<tr>
-				<td>Name</td>
-				<td>Date</td>
-				<td>Location</td>
+				<td>Name&nbsp;&nbsp;</td>
+				<td>Date&nbsp;&nbsp;</td>
+				<td>Location&nbsp;&nbsp;</td>
 			</tr>
 			<c:forEach var="event" items="${events}">
 				<tr>
-					<td><a href="events/${event.name}">${event.name}</a></td>
-					<td><fmt:formatDate value="${event.date}" pattern="MM-dd-yyyy"/></td>
+					<td><a href="events/${event.name}">${event.name}</a>&nbsp;&nbsp;</td>
+					<td><fmt:formatDate value="${event.date}" pattern="MM-dd-yyyy"/>&nbsp;&nbsp;</td>
 					<td>${event.city}, ${event.state}</td>
 				</tr>
 			</c:forEach>

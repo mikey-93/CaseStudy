@@ -6,9 +6,10 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>${wrestler.name}</title>
+		<jsp:include page="bootstrap.jsp"/>
+		<jsp:include page="topLabel.jsp"/>
 	</head>
 	<body>
-		<jsp:include page="topLabel.jsp"/><br/>
 		<table>
 			<tr>
 				<td><b>Name</b>: </td><td>${wrestler.name}</td>

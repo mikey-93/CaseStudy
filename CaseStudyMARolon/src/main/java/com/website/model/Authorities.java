@@ -14,17 +14,17 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 @Entity @IdClass(AuthoritiesId.class)
-@Table(name = "authorities")
+@Table(name = "AUTHORITIES")
 //@Table(name = "authorities", uniqueConstraints = @UniqueConstraint(columnNames =  {"authority", "username"}))
 public class Authorities {
 	
 	@Id
-	@Column(name = "authority")
+	@Column(name = "Authority")
 	private String authority;
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "username")
+	@JoinColumn(name = "User_Id")
 	private User user;
 
 	public String getAuthority() {
@@ -54,12 +54,12 @@ class AuthoritiesId implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name = "authority")
+	@Column(name = "Authority")
 	private String authority;
 	
 	@Id
 	@ManyToOne
-	@JoinColumn(name = "username")
+	@JoinColumn(name = "User_Id")
 	private User user;
 
 	public String getAuthority() {

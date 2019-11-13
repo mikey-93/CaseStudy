@@ -5,10 +5,10 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>Delete Confirmation</title>
+		<jsp:include page="bootstrap.jsp"/>
+		<jsp:include page="topLabel.jsp"/>
 	</head>
 	<body>
-		<jsp:include page="topLabel.jsp"/><br/>
-		
 		<p>${comment.event.name}</p><br/>
 		<table>
 			<tr>

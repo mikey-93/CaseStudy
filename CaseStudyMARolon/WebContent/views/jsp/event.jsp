@@ -11,23 +11,26 @@
 		<style type="text/css">
 			.error{color: red; font-size: small;}
 		</style>
+		<jsp:include page="bootstrap.jsp"/>
+		<jsp:include page="topLabel.jsp"/>
 	</head>
 	<body>
-		<jsp:include page="topLabel.jsp"/><br/>
+		<br/>
+		<a href="https://en.wikipedia.org/wiki/AEW_${event.name}" target="_blank">
+			<img src="<c:url value='/images/${event.name}.jpg'/>" 
+				alt="https://en.wikipedia.org/AEW_${event.name}"/>
+		</a>
+		
 		<table>
 			<tr>
-				<td><b>Name</b>: </td><td>${event.name}</td>
+				<td><b>Name</b>: </td><td>${event.name}&nbsp;&nbsp;</td>
 			</tr>
 			<tr>
-				<td><b>Date</b>: </td><td><fmt:formatDate value="${event.date}" pattern="MM-dd-yyyy"/></td>
+				<td><b>Date</b>: </td><td>${event.date}&nbsp;&nbsp;</td>
 			</tr>
 			<tr>
 				<td><b>Location</b>: </td><td>${event.city}, ${event.state}</td>
 			</tr>
-			<%-- <tr>
-				<td><a href="${pageContext.request.contextPath}/edit/${user.email}"><input type="button" value="Edit"/></a></td>
-				<td><a href="${pageContext.request.contextPath}/delete/${user.email}"><input type="button" value="Delete"/></a></td>
-			</tr> --%>
 		</table>
 		
 		<%-- Event Comments --%>
@@ -80,6 +83,7 @@
 			</form:form>
 		</c:if>
 		
+		<br/>
 		<c:if test="${pageContext.request.userPrincipal.name == null}">
 			<p>Log in to add comment</p>
 		</c:if>

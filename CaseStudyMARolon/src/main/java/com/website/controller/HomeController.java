@@ -53,7 +53,6 @@ public class HomeController {
    EventService eventService;
    @Autowired
    CommentRepository commentRepository;
-   //TODO Add CommentService?
    
    @InitBinder
    public void initBuilder(WebDataBinder binder) {
@@ -62,7 +61,7 @@ public class HomeController {
    }
    
    @RequestMapping("/")
-   public ModelAndView homePage(Principal principal) {
+   public ModelAndView homePage() {
       ModelAndView mav = new ModelAndView("home");
       return mav;
    }
@@ -170,8 +169,6 @@ public class HomeController {
           BindingResult br, @RequestParam("confPassword") String confPassword) {
       
       ModelAndView mav = null;
-      
-      System.out.println("Go here");
       
       if (!br.hasErrors() && user.getPassword().equals(confPassword)) {
          //Check if username or email are in the database

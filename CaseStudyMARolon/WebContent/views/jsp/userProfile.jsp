@@ -8,10 +8,10 @@
 	<head>
 		<meta charset="ISO-8859-1">
 		<title>${user.username}</title>
+		<jsp:include page="bootstrap.jsp"/>
+		<jsp:include page="topLabel.jsp"/>
 	</head>
 	<body>
-		<jsp:include page="topLabel.jsp"/><br/>
-		
 		<table>
 			<tr>
 				<td><b>Username</b>: </td>
@@ -45,13 +45,16 @@
 			</c:forEach>
 		</table>
 		
-		Add wrestler(s) 
-		<form action="${pageContext.request.contextPath}/addFavWrestlerProcess" method="post">
-			<c:forEach var="wrestler" items="${allWrestlers}">
-				<input type="checkbox" name="wrestlerNames" id="${wrestler}" 
-					value="${wrestler.name}"/> ${wrestler.name}<br/>
-			</c:forEach>
-			<button type="submit">Add Favorite Wrestler(s)</button>
-		</form>
+		<c:if test="${pageContext.request.userPrincipal.name == user.username}">
+			<br/><br/><br/>
+			Add wrestler(s) 
+			<form action="${pageContext.request.contextPath}/addFavWrestlerProcess" method="post">
+				<c:forEach var="wrestler" items="${allWrestlers}">
+					<input type="checkbox" name="wrestlerNames" id="${wrestler}" 
+						value="${wrestler.name}"/> ${wrestler.name}<br/>
+				</c:forEach>
+				<button type="submit">Add Favorite Wrestler(s)</button>
+			</form>
+		</c:if>
 	</body>
 </html>

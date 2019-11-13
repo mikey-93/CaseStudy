@@ -51,6 +51,10 @@ public class UserService implements UserDetailsService {
       return (userRepository.save(user) != null);
    }
    
+   public void deleteUser(User user) {
+      userRepository.delete(user);
+   }
+   
    public User getUserByEmail(String email) {
       return userRepository.findByEmail(email);
    }

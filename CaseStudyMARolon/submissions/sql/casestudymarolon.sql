@@ -18,16 +18,20 @@ USE `casestudymarolon`;
 
 -- Dumping structure for table casestudymarolon.authorities
 CREATE TABLE IF NOT EXISTS `authorities` (
-  `authority` varchar(255) NOT NULL,
-  `username` bigint(20) NOT NULL,
-  PRIMARY KEY (`username`,`authority`),
-  CONSTRAINT `FK2rp9v8xif3jqhua7a17t3fy27` FOREIGN KEY (`username`) REFERENCES `user` (`User_Id`)
+  `Authority` varchar(255) NOT NULL,
+  `User_Id` bigint(20) NOT NULL,
+  PRIMARY KEY (`User_Id`,`Authority`),
+  CONSTRAINT `FKolqa79rfhyd8glm8s8x60ia2y` FOREIGN KEY (`User_Id`) REFERENCES `user` (`User_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table casestudymarolon.authorities: ~0 rows (approximately)
+-- Dumping data for table casestudymarolon.authorities: ~5 rows (approximately)
 /*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
-INSERT INTO `authorities` (`authority`, `username`) VALUES
-	('ROLE_USER', 1);
+INSERT INTO `authorities` (`Authority`, `User_Id`) VALUES
+	('ROLE_USER', 1),
+	('ROLE_USER', 2),
+	('ROLE_USER', 3),
+	('ROLE_USER', 4),
+	('ROLE_USER', 5);
 /*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
 
 -- Dumping structure for table casestudymarolon.comment
@@ -42,19 +46,23 @@ CREATE TABLE IF NOT EXISTS `comment` (
   KEY `FKlqqya9ybucrbxjldrxkqvlhx6` (`User_Id`),
   CONSTRAINT `FK9l1yqs8ysnqut72fv0strx4u0` FOREIGN KEY (`Event_Id`) REFERENCES `event` (`Event_Id`),
   CONSTRAINT `FKlqqya9ybucrbxjldrxkqvlhx6` FOREIGN KEY (`User_Id`) REFERENCES `user` (`User_Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
--- Dumping data for table casestudymarolon.comment: ~0 rows (approximately)
+-- Dumping data for table casestudymarolon.comment: ~12 rows (approximately)
 /*!40000 ALTER TABLE `comment` DISABLE KEYS */;
 INSERT INTO `comment` (`Comment_Id`, `Comment_Date`, `Post`, `Event_Id`, `User_Id`) VALUES
-	(10, '2019-11-09 23:31:34', '1', 9, 1),
-	(11, '2019-11-09 23:31:45', '2', 9, 1),
-	(12, '2019-11-09 23:31:55', '3', 9, 1),
-	(13, '2019-11-09 23:32:04', '4', 9, 1),
-	(14, '2019-11-09 23:32:50', '5', 9, 1),
-	(15, '2019-11-09 23:41:51', 'Another one', 9, 1),
-	(16, '2019-11-10 01:47:28', 'I still haven\'t seen this', 10, 1),
-	(17, '2019-11-10 02:03:44', 'testing', 10, 1);
+	(1, '2019-11-09 23:31:34', '1', 1, 1),
+	(2, '2019-11-09 23:31:45', '2', 1, 1),
+	(3, '2019-11-09 23:31:55', '3', 4, 2),
+	(4, '2019-11-09 23:32:04', '4', 4, 3),
+	(5, '2019-11-09 23:32:50', '5', 3, 2),
+	(6, '2019-11-09 23:41:51', 'Another one', 2, 4),
+	(7, '2019-11-10 02:03:44', 'testing', 5, 4),
+	(8, '2019-11-10 18:23:04', 'It\'s working!', 5, 1),
+	(9, '2019-11-10 19:17:07', 'Yo', 2, 1),
+	(10, '2019-11-10 19:17:23', 'Heyyyyyyyyyy', 3, 1),
+	(11, '2019-11-10 19:18:55', 'I\'m new', 5, 5),
+	(12, '2019-11-10 22:43:20', 'What a show!', 5, 1);
 /*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 
 -- Dumping structure for table casestudymarolon.event
@@ -66,16 +74,16 @@ CREATE TABLE IF NOT EXISTS `event` (
   `State` varchar(255) NOT NULL,
   PRIMARY KEY (`Event_Id`),
   UNIQUE KEY `UK_lelx09wmf1snxkl0lg4pdgjb8` (`Event_Name`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 -- Dumping data for table casestudymarolon.event: ~5 rows (approximately)
 /*!40000 ALTER TABLE `event` DISABLE KEYS */;
 INSERT INTO `event` (`Event_Id`, `City`, `Event_Date`, `Event_Name`, `State`) VALUES
-	(6, 'Paradise', '2019-05-25 20:00:00', 'Double or Nothing', 'Nevada'),
-	(7, 'Daytona Beach', '2019-06-29 20:00:00', 'Fyter Fest', 'Florida'),
-	(8, 'Jacksonville', '2019-07-13 20:00:00', 'Fight for the Fallen', 'Florida'),
-	(9, 'Hoffman Estates', '2019-08-31 20:00:00', 'All Out', 'Illinois'),
-	(10, 'Baltimore', '2019-11-09 20:00:00', 'Full Gear', 'Maryland');
+	(1, 'Paradise', '2019-05-25 20:00:00', 'Double or Nothing', 'Nevada'),
+	(2, 'Daytona Beach', '2019-06-29 20:00:00', 'Fyter Fest', 'Florida'),
+	(3, 'Jacksonville', '2019-07-13 20:00:00', 'Fight for the Fallen', 'Florida'),
+	(4, 'Hoffman Estates', '2019-08-31 20:00:00', 'All Out', 'Illinois'),
+	(5, 'Baltimore', '2019-11-09 20:00:00', 'Full Gear', 'Maryland');
 /*!40000 ALTER TABLE `event` ENABLE KEYS */;
 
 -- Dumping structure for table casestudymarolon.event_wrestler
@@ -104,12 +112,16 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`User_Id`),
   UNIQUE KEY `UK_akxyafi0oics02wy6hspwkuiw` (`User_Email`),
   UNIQUE KEY `UK_581bctwspd9wmn7dtrkdcln8q` (`Username`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
--- Dumping data for table casestudymarolon.user: ~0 rows (approximately)
+-- Dumping data for table casestudymarolon.user: ~5 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`User_Id`, `User_DOB`, `User_Desc`, `User_Email`, `enabled`, `User_Password`, `Username`) VALUES
-	(1, '1993-02-15 00:00:00', '', 'd@y.com', b'1', '$2a$10$0Zw96bvAzz/s2vexp4lsN.lfz91Wx9Z8HxzSLUJSyHktNEOLd7bNq', 'm93');
+	(1, '1993-02-15 00:00:00', '', 'd@y.com', b'1', '$2a$10$0Zw96bvAzz/s2vexp4lsN.lfz91Wx9Z8HxzSLUJSyHktNEOLd7bNq', 'm93'),
+	(2, '1990-02-05 00:00:00', '', 'd4@y.com', b'1', '$2a$10$LVIQqasgfy8/.4gCrmhMIe7H25y8ztx0ZFfhCm2/r/o1otuW4EoH.', 'm94'),
+	(3, '2019-11-10 00:00:00', 'Yup.  ..', 'p@whatever.com', b'1', '$2a$10$hfYmZ42wKOMsn8Rbf8tRzuGdD5NzUzr5pT//02zYl4TYk5RESLLmy', 'p'),
+	(4, '2019-01-01 00:00:00', '', 'pega@mediodia.com', b'1', '$2a$10$SkHXuezZbmyDKDlRW4AGeu8hHv0SyiplXAO5z7HN6mG6YUkntU3t6', 'pega'),
+	(5, '2019-01-01 00:00:00', '', 'test@g.com', b'1', '$2a$10$691IKWMbbPIYjesnB/8z1OhKciMgQGYcosqFlRtEpKVwPocTXpi8i', 'test');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for table casestudymarolon.user_wrestler
@@ -122,8 +134,13 @@ CREATE TABLE IF NOT EXISTS `user_wrestler` (
   CONSTRAINT `FKpu8uhi9tb7rxrq23krq845k6o` FOREIGN KEY (`User_Id`) REFERENCES `user` (`User_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table casestudymarolon.user_wrestler: ~0 rows (approximately)
+-- Dumping data for table casestudymarolon.user_wrestler: ~4 rows (approximately)
 /*!40000 ALTER TABLE `user_wrestler` DISABLE KEYS */;
+INSERT INTO `user_wrestler` (`User_Id`, `Wrestler_Id`) VALUES
+	(1, 1),
+	(1, 3),
+	(1, 4),
+	(1, 5);
 /*!40000 ALTER TABLE `user_wrestler` ENABLE KEYS */;
 
 -- Dumping structure for table casestudymarolon.wrestler

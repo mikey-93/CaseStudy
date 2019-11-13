@@ -9,10 +9,10 @@
 		<style type="text/css">
 			.error{color: red; font-size: small;}
 		</style>
+		<jsp:include page="bootstrap.jsp"/>
+		<jsp:include page="topLabel.jsp"/>
 	</head>
 	<body>
-		<jsp:include page="topLabel.jsp"/><br/>
-		
 		<form:form id="registerForm" modelAttribute="registerFormObj" 
 			action="registerProcess" method="post">
 			<p>${message}</p>

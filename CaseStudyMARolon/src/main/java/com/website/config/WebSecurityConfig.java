@@ -27,13 +27,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	protected void configure (AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
-		
-		//Stay logged in
-//		auth.inMemoryAuthentication()
-//		.withUser("kun").password("kunkun").roles("ADMIN")
-		
-//		.and()
-//		.withUser
 	}
 	
 	public void configure(WebSecurity web){
@@ -58,21 +51,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
          .and()
          .exceptionHandling().accessDeniedPage("/403")
          .and()
-         .csrf().disable();
-//		http
-//			.authorizeRequests()
-//			.antMatchers("/contactus").permitAll()
-//			.antMatchers("/admin/**").hasRole("ADMIN")
-//			.antMatchers("/subscriber/**").hasRole("USER")
-//			.antMatchers("/all/**").hasAnyRole("ADMIN", "USER")
-//			.anyRequest().authenticated()
-//			.and()
-//			.formLogin().loginPage("/login").loginProcessingUrl("/loginAction").defaultSuccessUrl("/", true).permitAll()
-//			.and()
-//			.logout().logoutSuccessUrl("/login").permitAll()
-//			.and()
-//			.exceptionHandling().accessDeniedPage("/403")
-//			.and()
-//			.csrf().disable();	
+         .csrf().disable();	
 	}
 }
