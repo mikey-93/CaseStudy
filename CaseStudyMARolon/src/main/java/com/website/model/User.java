@@ -33,25 +33,28 @@ public class User {
    private long id;
    
    @NotEmpty
-   @Column(name = "Username", nullable = false, unique = true)
+   @Column(name = "Username", length = 50, nullable = false, unique = true)
    private String username;
    
    @NotEmpty
    @Email
-   @Column(name = "User_Email", nullable = false, unique = true)
+   @Column(name = "User_Email", length = 50, nullable = false, unique = true)
    private String email;
    
    @NotEmpty
    @Column(name = "User_Password", nullable = false)
    private String password;
    
-   @NotNull(message = "must not be empty")
+   @NotNull(message = "must not be null")
    @Past(message = "Date of birth cannot be in future")
    @Column(name = "User_DOB", nullable = false)
    private Date dateOfBirth;
    
    @Column(name = "User_Desc")
    private String desc;
+   
+   @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+   private Set<Comment> comments = new HashSet<>();
    
    @ManyToMany
    @JoinTable(name = "USER_WRESTLER", 
@@ -123,6 +126,14 @@ public class User {
 
    public void setDesc(String desc) {
       this.desc = desc;
+   }
+
+   public Set<Comment> getComments() {
+      return comments;
+   }
+
+   public void setComments(Set<Comment> comments) {
+      this.comments = comments;
    }
 
    public Set<Wrestler> getWrestlers() {

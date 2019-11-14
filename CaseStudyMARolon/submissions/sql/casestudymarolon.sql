@@ -24,14 +24,15 @@ CREATE TABLE IF NOT EXISTS `authorities` (
   CONSTRAINT `FKolqa79rfhyd8glm8s8x60ia2y` FOREIGN KEY (`User_Id`) REFERENCES `user` (`User_Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
--- Dumping data for table casestudymarolon.authorities: ~5 rows (approximately)
+-- Dumping data for table casestudymarolon.authorities: ~6 rows (approximately)
 /*!40000 ALTER TABLE `authorities` DISABLE KEYS */;
 INSERT INTO `authorities` (`Authority`, `User_Id`) VALUES
 	('ROLE_USER', 1),
 	('ROLE_USER', 2),
 	('ROLE_USER', 3),
 	('ROLE_USER', 4),
-	('ROLE_USER', 5);
+	('ROLE_USER', 5),
+	('ROLE_ADMIN', 6);
 /*!40000 ALTER TABLE `authorities` ENABLE KEYS */;
 
 -- Dumping structure for table casestudymarolon.comment
@@ -68,10 +69,10 @@ INSERT INTO `comment` (`Comment_Id`, `Comment_Date`, `Post`, `Event_Id`, `User_I
 -- Dumping structure for table casestudymarolon.event
 CREATE TABLE IF NOT EXISTS `event` (
   `Event_Id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `City` varchar(255) NOT NULL,
+  `City` varchar(50) NOT NULL,
   `Event_Date` datetime NOT NULL,
-  `Event_Name` varchar(255) NOT NULL,
-  `State` varchar(255) NOT NULL,
+  `Event_Name` varchar(50) NOT NULL,
+  `State` varchar(50) NOT NULL,
   PRIMARY KEY (`Event_Id`),
   UNIQUE KEY `UK_lelx09wmf1snxkl0lg4pdgjb8` (`Event_Name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
@@ -105,23 +106,24 @@ CREATE TABLE IF NOT EXISTS `user` (
   `User_Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `User_DOB` datetime NOT NULL,
   `User_Desc` varchar(255) DEFAULT NULL,
-  `User_Email` varchar(255) NOT NULL,
+  `User_Email` varchar(50) NOT NULL,
   `enabled` bit(1) NOT NULL,
   `User_Password` varchar(255) NOT NULL,
-  `Username` varchar(255) NOT NULL,
+  `Username` varchar(50) NOT NULL,
   PRIMARY KEY (`User_Id`),
   UNIQUE KEY `UK_akxyafi0oics02wy6hspwkuiw` (`User_Email`),
   UNIQUE KEY `UK_581bctwspd9wmn7dtrkdcln8q` (`Username`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
--- Dumping data for table casestudymarolon.user: ~5 rows (approximately)
+-- Dumping data for table casestudymarolon.user: ~6 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`User_Id`, `User_DOB`, `User_Desc`, `User_Email`, `enabled`, `User_Password`, `Username`) VALUES
-	(1, '1993-02-15 00:00:00', '', 'd@y.com', b'1', '$2a$10$0Zw96bvAzz/s2vexp4lsN.lfz91Wx9Z8HxzSLUJSyHktNEOLd7bNq', 'm93'),
-	(2, '1990-02-05 00:00:00', '', 'd4@y.com', b'1', '$2a$10$LVIQqasgfy8/.4gCrmhMIe7H25y8ztx0ZFfhCm2/r/o1otuW4EoH.', 'm94'),
-	(3, '2019-11-10 00:00:00', 'Yup.  ..', 'p@whatever.com', b'1', '$2a$10$hfYmZ42wKOMsn8Rbf8tRzuGdD5NzUzr5pT//02zYl4TYk5RESLLmy', 'p'),
-	(4, '2019-01-01 00:00:00', '', 'pega@mediodia.com', b'1', '$2a$10$SkHXuezZbmyDKDlRW4AGeu8hHv0SyiplXAO5z7HN6mG6YUkntU3t6', 'pega'),
-	(5, '2019-01-01 00:00:00', '', 'test@g.com', b'1', '$2a$10$691IKWMbbPIYjesnB/8z1OhKciMgQGYcosqFlRtEpKVwPocTXpi8i', 'test');
+	(1, '1993-02-15 00:00:00', '', 'd@y.com', b'1', '$2a$10$tCM1MbUnk6TKcyIa7R8EIedgkMotbWjHQHPbIPDGLnjySssyJW9ry', 'm93'),
+	(2, '1990-02-05 00:00:00', '', 'd4@g.com', b'1', '$2a$10$4qNaY5/.BapwjYER896oN.M5Iood2B6ULg79t/uz8QJutlo2MDV3q', 'm94'),
+	(3, '2019-11-10 00:00:00', '', 'p@whatever.com', b'1', '$2a$10$vR6p4gmfH8IzejXjArIZQ.cLEgDIaW5HbhyVmP.BW3TOb5nQluqsq', 'p'),
+	(4, '2019-01-01 00:00:00', 'Yup. ...', 'pega@mediodia.com', b'1', '$2a$10$xI6j2uhAaZjssQPGntJdr.p8RkHTlZQzp60aSsFZBO6TVKxaJtm6y', 'pega'),
+	(5, '2019-01-01 00:00:00', '', 'test@g.com', b'1', '$2a$10$kCiKm.cIRnki2IzNd7ecjOS/41qzhtCmUC8..bpCKOzQYDB52h95.', 'test'),
+	(6, '1979-11-14 00:00:00', 'admin', 'admin@admin.com', b'1', '$2a$10$WbPlDnCi8R.B1fEARgt6PuSsKcMg9mb1RQaGSB1PtS4GZ0eEVbLR2', 'admin');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- Dumping structure for table casestudymarolon.user_wrestler
@@ -148,8 +150,8 @@ CREATE TABLE IF NOT EXISTS `wrestler` (
   `Wrest_Id` bigint(20) NOT NULL AUTO_INCREMENT,
   `Wrest_DOB` datetime NOT NULL,
   `Wrest_Desc` varchar(255) DEFAULT NULL,
-  `Division` varchar(255) NOT NULL,
-  `Wrest_Name` varchar(255) NOT NULL,
+  `Division` varchar(50) NOT NULL,
+  `Wrest_Name` varchar(50) NOT NULL,
   PRIMARY KEY (`Wrest_Id`),
   UNIQUE KEY `UK_rl22ng6ymdry34vvjp1dkbavx` (`Wrest_Name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;

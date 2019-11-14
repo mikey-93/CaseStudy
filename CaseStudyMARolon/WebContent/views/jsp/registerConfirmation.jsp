@@ -10,6 +10,6 @@
 	</head>
 	<body>
 		<p>Welcome, ${user.username}! ${message}</p>
-		<a href="${pageContext.request.contextPath}/login">Login</a>
+		<a href="${pageContext.request.contextPath}/login">Log In</a>
 	</body>
 </html>

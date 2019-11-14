@@ -13,17 +13,13 @@
 	<body>
 		<table>
 			<tr>
-				<td><b>Name</b></td>
-				<td><b>DOB</b></td>
+				<td><b>Name</b>&nbsp;&nbsp;</td>
 				<td><b>Division</b></td>
-				<td><b>Description</b></td>
 			</tr>
 			<c:forEach var="wrestler" items="${wrestlers}">
 				<tr>
-					<td><a href="roster/${wrestler.name}">${wrestler.name}</a></td>
-					<td><fmt:formatDate value="${wrestler.dateOfBirth}" pattern="MM-dd-yyyy"/></td>
+					<td><a href="roster/${wrestler.name}">${wrestler.name}</a>&nbsp;&nbsp;</td>
 					<td>${wrestler.division}</td>
-					<td>${wrestler.desc}</td>
 				</tr>
 			</c:forEach>
 		</table>

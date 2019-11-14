@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,14 +22,14 @@ public class Wrestler {
    @Column(name = "Wrest_Id")
    private long id;
    
-   @Column(name = "Wrest_Name", nullable = false, unique = true)
+   @Column(name = "Wrest_Name", length = 50, nullable = false, unique = true)
    private String name;
    
    @Past(message = "Date of birth cannot be in future")
    @Column(name = "Wrest_DOB", nullable = false)
    private Date dateOfBirth;
    
-   @Column(name = "Division", nullable = false)
+   @Column(name = "Division", length = 50, nullable = false)
    private String division;
    
    @Column(name = "Wrest_Desc")

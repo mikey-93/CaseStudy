@@ -8,18 +8,18 @@
 	<a href="${pageContext.request.contextPath}/roster">Roster</a>
 	| 
 	<a href="${pageContext.request.contextPath}/events">Events</a>
-	| 
+	|| 
 	<%-- Adding cases for login and logout --%>
 	<c:if test="${pageContext.request.userPrincipal.name == null}">
-		<a href="${pageContext.request.contextPath}/login">Log In</a>
+		<a href="${pageContext.request.contextPath}/login"><b>Log In</b></a>
 		| 
-		<a href="${pageContext.request.contextPath}/register">Register</a>
+		<a href="${pageContext.request.contextPath}/register"><b>Register</b></a>
 	</c:if>
 	<%-- Logout --%>
 	<c:if test="${pageContext.request.userPrincipal.name != null}">
-		<a href="${pageContext.request.contextPath}/${pageContext.request.userPrincipal.name}">${pageContext.request.userPrincipal.name}</a>
+		<a href="${pageContext.request.contextPath}/${pageContext.request.userPrincipal.name}"><b>${pageContext.request.userPrincipal.name}</b></a>
 		| 
-		<a href="${pageContext.request.contextPath}/logout">Log Out</a>
+		<a href="${pageContext.request.contextPath}/logout"><b>Log Out</b></a>
 	</c:if>
 	 
 	<br/>

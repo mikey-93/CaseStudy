@@ -21,7 +21,7 @@
 			</tr>
 		</table>
 		
-		<p>Are you sure you want to delete this comment?</p>
+		<p>Are you sure you want to DELETE this comment?</p>
 		<form action="${pageContext.request.contextPath}/deleteProcess" method="post">
 			<input type="hidden" name="commentId" id="commentId" 
 				value="${comment.id}" readonly/>

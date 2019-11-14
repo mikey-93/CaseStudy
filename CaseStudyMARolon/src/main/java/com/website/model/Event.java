@@ -29,17 +29,17 @@ public class Event {
    @Column(name = "Event_Id")
    private long id;
    
-   @Column(name = "Event_Name", nullable = false, unique = true)
+   @Column(name = "Event_Name", length = 50, nullable = false, unique = true)
    private String name;
    
    @Past(message = "Date cannot be in future")
    @Column(name = "Event_Date", nullable = false)
    private Date date;
    
-   @Column(name = "City", nullable = false)
+   @Column(name = "City", length = 50, nullable = false)
    private String city;
    
-   @Column(name = "State", nullable = false)
+   @Column(name = "State", length = 50, nullable = false)
    private String state;
    
    @ManyToMany(fetch = FetchType.LAZY)

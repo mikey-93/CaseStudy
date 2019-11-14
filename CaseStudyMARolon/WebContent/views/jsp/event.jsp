@@ -35,7 +35,7 @@
 		
 		<%-- Event Comments --%>
 		<br/><br/><br/>
-		${deleteCon}
+		${deleteConf}
 		<table>
 			<tr>
 				<td><b>Date</b>&nbsp;&nbsp;</td>
@@ -53,7 +53,7 @@
 					<td>${comment.post}&nbsp;&nbsp;</td>
 					<td> <%-- Delete comment --%>
 						<c:if test="${pageContext.request.userPrincipal.name == comment.user.username}">
-							<form action="${pageContext.request.contextPath}/deleteCon" method="post">
+							<form action="${pageContext.request.contextPath}/deleteConf" method="post">
 						
 								<input type="hidden" name="commentId" id="commentId" 
 									value="${comment.id}" readonly/>

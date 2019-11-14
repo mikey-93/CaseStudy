@@ -46,7 +46,14 @@
 		</table>
 		
 		<c:if test="${pageContext.request.userPrincipal.name == user.username}">
-			<br/><br/><br/>
+			<br/>
+			<%-- Delete --%>
+			<form action="${pageContext.request.contextPath}/deleteUser" method="post">
+				<button type="submit">Delete Account</button>
+			</form>
+			<br/>
+			
+			<%-- Add wrestler(s) --%>
 			Add wrestler(s) 
 			<form action="${pageContext.request.contextPath}/addFavWrestlerProcess" method="post">
 				<c:forEach var="wrestler" items="${allWrestlers}">
